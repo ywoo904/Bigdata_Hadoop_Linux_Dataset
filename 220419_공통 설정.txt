@@ -1,0 +1,51 @@
+
+ 빅데이터 파일럿 프로젝트용 PC환경구성
+
+ - 자바설치
+ - 이클립스 설치 
+ - 버추얼 박스(오프소스 무료... ) -> VMware
+ - CentOS -> 서버(3대)
+ - 기타도구 ( xshell(Putty-터미널 프로그램), 파일질라(FTP), 
+           크롬, 예제코드... )
+
+ ## 빅데이터 서버 환경 구성 : 개인 PC(리눅스 3대)
+ - 클라우데라 메니저 설치
+ - 빅데이터 에코시스템 설치 : 하둡, 주키퍼 등 기본 구성
+ 
+
+ 1) JAVA 설치
+ 2) 이클립스 
+ 3) VMware 설치 
+ 4) SSH 접속 프로그램(터미널 프로그램)
+   putty,  xshell(O)
+ 5) FTP접속 프로그램 설치 
+ 
+### CentOS설정 
+
+ # server01.hadoop.com 
+ 네트워크 주소 : 192.168.56.101/24 , gw 192.168.56.2
+ # server02.hadoop.com 
+ 네트워크 주소 : 192.168.56.102/24 , gw 192.168.56.2
+ # server03.hadoop.com 
+ 네트워크 주소 : 192.168.56.103/24 , gw 192.168.56.2
+
+ **ssh 설치 : sudo yum install openssh* -y
+  => xshell을 이용해서 접속.... 
+
+ # /etc/hosts 파일에 server01, server02,server03 도메인 설정
+ sudo vim /etc/hosts
+ 192.168.56.101 server01 server01.hadoop.com
+ 192.168.56.102 server02 server02.hadoop.com
+ 192.168.56.103 server03 server03.hadoop.com
+
+
+ # 방화벽 끄기 
+ sudo systemctl stop firewalld        -> 방화벽 끄기
+ sudo systemctl disable firewalld    -> 방화벽 사용 안하기
+
+ # Selinux 끄기
+ sudo /etc/sysconfig/selinux
+"SELINUX=enforcing" => "SELINUX=disabled" 
+
+ # jdk 1.8 설치 
+

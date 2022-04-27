@@ -1,0 +1,109 @@
+hbase
+
+[root@server02 ~]# hbase   <- 명령어 찾아보기
+
+Usage: hbase [<options>] <command> [<args>]
+Options:
+  --config DIR         Configuration direction to use. Default: ./conf
+  --hosts HOSTS        Override the list in 'regionservers' file
+  --auth-as-server     Authenticate to ZooKeeper using servers configuration
+  --internal-classpath Skip attempting to use client facing jars (WARNING: unstable results between versions)
+
+Commands:
+Some commands take arguments. Pass no args or -h for usage.
+  shell           Run the HBase shell
+  hbck            Run the HBase 'fsck' tool. Defaults read-only hbck1.
+                  Pass '-j /path/to/HBCK2.jar' to run hbase-2.x HBCK2.
+  snapshot        Tool for managing snapshots
+  wal             Write-ahead-log analyzer
+  hfile           Store file analyzer
+  zkcli           Run the ZooKeeper shell
+  master          Run an HBase HMaster node
+  regionserver    Run an HBase HRegionServer node
+  zookeeper       Run a ZooKeeper server
+  rest            Run an HBase REST server
+  thrift          Run the HBase Thrift server
+  thrift2         Run the HBase Thrift2 server
+  clean           Run the HBase clean up script
+  classpath       Dump hbase CLASSPATH
+  mapredcp        Dump CLASSPATH entries required by mapreduce
+  pe              Run PerformanceEvaluation
+  ltt             Run LoadTestTool
+  canary          Run the Canary tool
+  version         Print the version
+  regionsplitter  Run RegionSplitter tool
+  rowcounter      Run RowCounter tool
+  cellcounter     Run CellCounter tool
+  pre-upgrade     Run Pre-Upgrade validator tool
+  CLASSNAME       Run the class named CLASSNAME
+
+
+43p 부터 차례로 실습
+## hbase실습
+
+## 레디스 설치
+[root@server02 ~]# rpm -qa | grep gcc   <- gcc깔려 있는지 확인
+gcc : c언어 개발환경
+
+zoom에 보내준 파일 복사해서 xshell 명령창에 붙여넣기
+
+echo "http://vault.centos.org/6.10/os/x86_64/" > /var/cache/yum/x86_64/6/base/mirrorlist.txt
+echo "http://vault.centos.org/6.10/extras/x86_64/" > /var/cache/yum/x86_64/6/extras/mirrorlist.txt
+echo "http://vault.centos.org/6.10/updates/x86_64/" > /var/cache/yum/x86_64/6/updates/mirrorlist.txt
+echo "http://vault.centos.org/6.10/sclo/x86_64/rh" > /var/cache/yum/x86_64/6/centos-sclo-rh/mirrorlist.txt
+echo "http://vault.centos.org/6.10/sclo/x86_64/sclo" > /var/cache/yum/x86_64/6/centos-sclo-sclo/mirrorlist.txt
+
+그 다음
+yum install -y gcc*
+yum install -y tcl
+cd /home/pilot-pjt/
+wget http://download.redis.io/releases/redis-5.0.7.tar.gz
+ls <-파일 확인
+tar -xvf redis-5.0.7.tar.gz
+cd redis-5.0.7
+ls
+make        	C언어에서 컴파일하는 작업
+make install 	컴파일한 파일 설치
+(chmod 755 install_server.sh) 할 필요 없음 안함!
+
+-------------------------------------------------------------------------------------------------------
+[root@server02 utils]# ./install_server.sh 
+엔터 누르다가 
+Please select the redis executable path [] 문장 나오면 옆에 /usr/local/bin/redis-server 주소 추가
+-----------------------------------실행 성공했을때 창-----------------------------------------
+[root@server02 utils]# ./install_server.sh 
+Welcome to the redis service installer
+This script will help you easily set up a running redis server
+
+Please select the redis port for this instance: [6379] 
+Selecting default: 6379
+Please select the redis config file name [/etc/redis/6379.conf] 
+Selected default - /etc/redis/6379.conf
+Please select the redis log file name [/var/log/redis_6379.log] 
+Selected default - /var/log/redis_6379.log
+Please select the data directory for this instance [/var/lib/redis/6379] 
+Selected default - /var/lib/redis/6379
+Please select the redis executable path [] /usr/local/bin/redis-server
+Selected config:
+Port           : 6379
+Config file    : /etc/redis/6379.conf
+Log file       : /var/log/redis_6379.log
+Data dir       : /var/lib/redis/6379
+Executable     : /usr/local/bin/redis-server
+Cli Executable : /usr/local/bin/redis-cli
+Is this ok? Then press ENTER to go on or Ctrl-C to abort.
+
+Copied /tmp/6379.conf => /etc/init.d/redis_6379
+Installing service...
+Successfully added to chkconfig!
+Successfully added to runlevels 345!
+Starting Redis server...
+Installation successful!
+------------------------------------------------------------------------------------------------------
+Bind: Server의 IP를 묶어주는 것  
+
+# Bash profile 
+vim ~/.bash_profile 
+PATH= $PATH:$HOME/bin:/usr/local/bin
+
+export PATH 

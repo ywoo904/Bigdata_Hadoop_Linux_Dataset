@@ -1,0 +1,55 @@
+1. xshell -> 계정 root전환
+
+2. cloudera.com 다운로드
+
+3. xshell 창 입력
+wget https://archive.cloudera.com/cm7/7.4.4/cloudera-manager-installer.bin
+chmod u+x cloudera-manager-installer.bin
+sudo ./cloudera-manager-installer.bin
+
+4. http://192.168.56.101:7180
+
+5. 관리자권한으로 메모장 키기 : 열기->C: -> windows -> system32 -> drivers -> etc -> hosts
+192.168.56.101 server01.hadoop.com
+192.168.56.102 server02.hadoop.com
+192.168.56.103 server03.hadoop.com
+추가한 후 저장
+
+6. 주소창에 http://server01.hadoop.com:7180
+
+7. xshell창에서 vim /var/lib/cloudera-scm-server-db/data/pg_hba.conf
+host all cloudera-scm,scm 0.0.0.0/0 reject -> host all cloudera-scm,scm 0.0.0.0/0 md5
+밑에 줄 수정
+host all all 0.0.0.0/0 trust
+host all sameuser 0.0.0.0/0 md5
+
+8. systemctl restart cloudera-scm-server-db.service 바꾼 설정 재적용
+
+# CM(Cloudera Manager) 
+[주요기능]
+-프로비저닝: 하둡 에코시스템을 편리하게 설치, 삭제, 수정관리 
+-매니지먼트: 설치한 에코시스템의 설정변경 및 최적화 지원 
+-모니터링 : 하드웨어 리소스 및 설치 컴포넌트의 상태 모니터링/대시보드 
+
+[사용자 지정 서비스]
+HDFS, YARN, ZOOKeeper 
+
+YARN  
+Resource Manager- > server01.hadoop.com 
+JobHistory Manager ->server01.hadoop.com 
+NodeManager x2 -> Same as DataNode
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

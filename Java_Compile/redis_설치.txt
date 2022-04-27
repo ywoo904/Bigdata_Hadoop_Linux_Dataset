@@ -1,0 +1,76 @@
+
+1. 설치 
+yum install -y gcc* tcl
+
+ 오류시... (centos6인 경우)
+
+echo "http://vault.centos.org/6.10/os/x86_64/" > /var/cache/yum/x86_64/6/base/mirrorlist.txt
+echo "http://vault.centos.org/6.10/extras/x86_64/" > /var/cache/yum/x86_64/6/extras/mirrorlist.txt
+echo "http://vault.centos.org/6.10/updates/x86_64/" > /var/cache/yum/x86_64/6/updates/mirrorlist.txt
+echo "http://vault.centos.org/6.10/sclo/x86_64/rh" > /var/cache/yum/x86_64/6/centos-sclo-rh/mirrorlist.txt
+echo "http://vault.centos.org/6.10/sclo/x86_64/sclo" > /var/cache/yum/x86_64/6/centos-sclo-sclo/mirrorlist.txt
+
+
+ cd /home/pilot-pjt
+ wget http://download.redis.io/releases/redis-5.0.7.tar.gz  (다운로드)
+ tar -xvf redis-5.0.7.tar.gz   (압축해제)
+ cd /home/pilot-pjt/redis-5.0.7   (압축해제된 디렉터리 이동)
+
+ (설치과정)
+ make
+ make install
+
+ cd /home/pilot-pjt/redis-5.0.7/utils
+ chmod 755 install_server.sh   (안해도됨)
+
+
+[root@server02 utils]# ./install_server.sh 
+Welcome to the redis service installer
+This script will help you easily set up a running redis server
+
+Please select the redis port for this instance: [6379] 
+Selecting default: 6379
+Please select the redis config file name [/etc/redis/6379.conf] 
+Selected default - /etc/redis/6379.conf
+Please select the redis log file name [/var/log/redis_6379.log] 
+Selected default - /var/log/redis_6379.log
+Please select the data directory for this instance [/var/lib/redis/6379] 
+Selected default - /var/lib/redis/6379
+Please select the redis executable path [] /usr/local/bin/redis-server
+Selected config:
+Port           : 6379
+Config file    : /etc/redis/6379.conf
+Log file       : /var/log/redis_6379.log
+Data dir       : /var/lib/redis/6379
+Executable     : /usr/local/bin/redis-server
+Cli Executable : /usr/local/bin/redis-cli
+Is this ok? Then press ENTER to go on or Ctrl-C to abort.
+Copied /tmp/6379.conf => /etc/init.d/redis_6379
+Installing service...
+Successfully added to chkconfig!
+Successfully added to runlevels 345!
+Starting Redis server...
+Installation successful!
+[root@server02 utils]#
+
+
+ 2. 설정 
+vim /etc/redis/6379.conf
+
+ 70 #bind 127.0.0.1    #으로 70번째 주석처리 (모든 IP를 사용)
+ 89 protected-mode no    # yes -> no로 변경 (패스워드를 이용한 접근 사용X)
+
+
+
+ 3. 경로 설정.. /usr/local/bin 이 기본 경로 아닌 경우 
+ vim ~/.bash_profile 
+ PATH = $PATH:$HOME/bin:/usr/local/bin
+
+ export PATH
+ 로 PATH뒤에 ":"을 붙이고, 저장하고 나오기
+
+ # source ~/.bash_profile  으로 적용
+
+
+
+
